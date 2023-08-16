@@ -3,14 +3,14 @@ pipeline {
   stages {
     stage ('deploying to stage environment'){
       steps {
-        sshagent(['ansible']) {
-           sh 'ssh -t -t ubuntu@10.0.4.12 -o StrictHostKeyChecking=no "ansible-playbook /home/ubuntu/playbooks/stage.yml"'
+        sshagent(['ansible-key']) {
+           sh 'ssh -t -t ubuntu@10.0.4.120 -o StrictHostKeyChecking=no "ansible-playbook /home/ubuntu/playbooks/stage.yml"'
         }
       }
     }
     stage ('slack notification'){
       steps {
-        slackSend channel: '26th-june-sock-shop-microservices-kubernetes-project---eu-team-1', message: 'Ready for new deployment to production environment', tokenCredentialId: 'slack'
+        slackSend channel: '24th-july-sock-shop-microservices-kubernetes-project---eu-team-1', message: 'Ready for new deployment to production environment', tokenCredentialId: 'slack'
       }
     }
     stage ('Approval'){
@@ -22,8 +22,8 @@ pipeline {
     }
     stage ('deploying to prod environment'){
       steps {
-        sshagent(['ansible']) {
-           sh 'ssh -t -t ubuntu@10.0.4.12 -o StrictHostKeyChecking=no "ansible-playbook /home/ubuntu/playbooks/prod.yml"'
+        sshagent(['ansible-key']) {
+           sh 'ssh -t -t ubuntu@10.0.4.120 -o StrictHostKeyChecking=no "ansible-playbook /home/ubuntu/playbooks/prod.yml"'
         }
       }
     }
